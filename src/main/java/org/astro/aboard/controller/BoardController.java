@@ -27,11 +27,13 @@ public class BoardController {
     // GET.
     // 리스트.
     @GetMapping("list")
-    public void getList(Model model) {        
+    public void getList(Model model) {
+
+        List<BoardDTO> list = boardService.getList();
 
         log.info("GET ||||| ----------LIST----------");
 
-        model.addAttribute("list", boardService.getList());
+        model.addAttribute("list", list);
     }
 
     // 보기.
