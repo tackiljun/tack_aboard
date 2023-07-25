@@ -23,16 +23,15 @@ public class BoardController {
     private final BoardService boardService;
     
 /////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////
     // GET.
     // 리스트.
     @GetMapping("list")
-    public void getList(Model model) {
-
-        List<BoardDTO> list = boardService.getList();
+    public void getList(Model model) {        
 
         log.info("GET ||||| ----------LIST----------");
 
-        model.addAttribute("list", list);
+        model.addAttribute("list", boardService.getList());
     }
 
     // 보기.
@@ -64,7 +63,7 @@ public class BoardController {
         return "board/modify";
     }
 
-
+/////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////
     // POST.
     // 등록.

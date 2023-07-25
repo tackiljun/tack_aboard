@@ -1,4 +1,3 @@
-
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
@@ -6,3 +5,28 @@
 
 <mapper namespace="org.astro.aboard.mappers.BoardMapper">
 
+        <insert id="insertOne">
+                insert into tbl_board (title,content,writer)
+                values (#{title}, #{content}, #{writer})
+
+                <selectKey resultType="int" keyProperty="bno" order="AFTER">
+                        SELECT LAST_INSERT_ID()
+                </selectKey>
+        </insert>
+
+        <select id="getList" resultType="org.astro.aboard.dto.BoardDTO">
+                select * from tbl_board order by bno desc
+        </select>
+
+        <select id="getOne" resultType="org.astro.aboard.dto.BoardDTO">
+                select * from tbl_board where bno = #{bno}
+        </select>
+
+        <delete id="deleteOne">
+                delete from tbl_board where bno = #{bno}
+        </delete>
+
+        <update id="modifyOne">
+                update tbl_board set title = #{title}, content = #{content}, writer = #{writer} where bno = #{bno}
+        </update>
+</mapper>

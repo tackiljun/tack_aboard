@@ -2,8 +2,10 @@ package org.astro.aboard.mappers;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.astro.aboard.dto.BoardDTO;
 
+@Mapper
 public interface BoardMapper {
     
     // 리스트목록.

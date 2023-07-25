@@ -6,7 +6,7 @@ function makePages(page, size, total) {
   console.log("startNum: ", startNum)
 
   let result =""
-  //이전 
+  // 이전.
   if(startNum !== 1) {
     result +=`<li class="page-item"><a class="page-link" href="${startNum -1}">&laquo;</a></li>`
   }
@@ -23,8 +23,9 @@ function makePages(page, size, total) {
 
     temp++;
 
-  }//end while
+  }// end while.
 
+  // 다음.
   if( total % 100  === 1) {
     result +=`<li class="page-item"><a class="page-link" href="${startNum + 10}">&raquo;</a></li>`
   }
