@@ -3,6 +3,8 @@ package org.astro.aboard.service;
 import java.util.List;
 
 import org.astro.aboard.dto.BoardDTO;
+import org.astro.aboard.dto.PageRequestDTO;
+import org.astro.aboard.dto.PageResponseDTO;
 import org.astro.aboard.mappers.BoardMapper;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +19,19 @@ public class BoardServiceImpl implements BoardService {
     private final BoardMapper boardMapper;
     
     
-    @Override
-    public List<BoardDTO> getList() {
+    // @Override
+    // public List<BoardDTO> getList() {
         
-        return boardMapper.getList();
+    //     return boardMapper.getList();
+    // }
+
+    @Override
+    public PageResponseDTO<BoardDTO> getList(PageRequestDTO pageRequestDTO) {
+        
+        List<BoardDTO> list = boardMapper.getList(pageRequestDTO);
+        long total = boardMapper.listCount(pageRequestDTO);
+
+        return PageResponseDTO.<BoardDTO>withAll().list(list).total(total).build();
     }
 
 
@@ -50,6 +61,9 @@ public class BoardServiceImpl implements BoardService {
         
         return boardMapper.modifyOne(boardDTO);
     }
+
+
+    
 
     
 

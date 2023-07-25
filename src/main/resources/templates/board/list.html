@@ -7,7 +7,7 @@
       <h1>List Page</h1>
       <div>
             <table>
-                  <tr th:each="dto : ${list}">
+                  <tr th:each="dto : ${pageResponseDTO.list}">
                         <td>[[${dto.bno}]]</td>
                         <td th:data-bno="${dto.bno}">[[${dto.title}]]</td>
                         <td>[[${dto.writer}]]</td>
@@ -15,16 +15,29 @@
             </table>
       </div>
 
+      <div>
+            <ul class="pagination pagination-sm m-0 float-right boardUL">
+                  <li class="page-item"><a class="page-link" href="10">&laquo;</a></li>
+                  <li class="page-item"><a class="page-link" href="11">11</a></li>
+                  <li class="page-item"><a class="page-link" href="12">12</a></li>
+                  <li class="page-item"><a class="page-link" href="13">13</a></li>
+                  <li class="page-item"><a class="page-link" href="21">&raquo;</a></li>
+            </ul>
+      </div>
+
       <form class="actionForm" action="/board/list" method="get">
             <input type="hidden" name="page" value="3">
             <input type="hidden" name="size" th:value="10">
       </form>
 
-      <script>
+      <script src="/js/pageUtil.js">
+      </script>
+      <script th:inline="javascript">
 
             const actionForm = document.querySelector(".actionForm")
-
             const boardTable = document.querySelector(".boardTable")
+            const pageObj = actionForm.querySelector("input[name='page']")
+            const boardUL = document.querySelector(".boardUL")
 
             boardTable.addEventListener("click", (e) => {
 
@@ -43,9 +56,36 @@
 
                   console.log("BNO: " + bno)
                   actionForm.setAttribute("action", `/board/read/${bno}`)
-
                   actionForm.submit();
             }, false)
+
+///////////////////////////////////////////////////////////////////////////////////////////////
+
+            boardUL.addEventListener("click", (e) => {
+                  e.preventDefault()
+                  e.stopPropagation()
+
+                  const target = e.target
+                  const pageNum = target.getAttribute("href")
+
+                  pageObj.value = pageNum
+                  actionForm.setAttribute("action", `/board/list`)
+                  actionForm.submit()
+            }, false)
+
+            const {page, size} = [[${pageRequestDTO}]]
+
+            console.log(page, size)
+
+            const {total} = [[${pageResponseDTO}]]
+
+            console.log("total: " + total)
+
+            const pageLIStr = makePages(page, size, total)
+
+            console.log("boardUL: " + boardUL)
+
+            boardUL.innerHTML = pageLIStr
 
       </script>
 </body>

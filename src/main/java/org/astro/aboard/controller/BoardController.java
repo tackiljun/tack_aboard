@@ -3,6 +3,8 @@ package org.astro.aboard.controller;
 import java.util.List;
 
 import org.astro.aboard.dto.BoardDTO;
+import org.astro.aboard.dto.PageRequestDTO;
+import org.astro.aboard.dto.PageResponseDTO;
 import org.astro.aboard.service.BoardService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,13 +29,15 @@ public class BoardController {
     // GET.
     // 리스트.
     @GetMapping("list")
-    public void getList(Model model) {
+    public void getList(PageRequestDTO pageRequestDTO, Model model) {
 
-        List<BoardDTO> list = boardService.getList();
+        //List<BoardDTO> list = boardService.getList();
+
+        PageResponseDTO<BoardDTO> pageResponseDTO = boardService.getList(pageRequestDTO);
 
         log.info("GET ||||| ----------LIST----------");
 
-        model.addAttribute("list", list);
+        model.addAttribute("list", pageResponseDTO);
     }
 
     // 보기.
