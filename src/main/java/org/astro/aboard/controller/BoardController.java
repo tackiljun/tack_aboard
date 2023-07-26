@@ -37,6 +37,7 @@ public class BoardController {
 
         log.info("GET ||||| ----------LIST----------");
 
+        //model.addAttribute("list", list);
         model.addAttribute("pageResponseDTO", pageResponseDTO);
     }
 
@@ -95,13 +96,14 @@ public class BoardController {
     }
 
     // 수정.
+    @PostMapping("/modify/{bno}")
     public String postModify(@PathVariable("bno") int bno, BoardDTO boardDTO) {
 
         log.info("POST ||||| ----------MODIFY----------");
 
         boardService.modifyOne(boardDTO);
 
-        return "redirect:/board/read" + bno;
+        return "redirect:/board/read/" + bno;
     }
     
 }

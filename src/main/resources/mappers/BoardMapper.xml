@@ -15,7 +15,7 @@
         </insert>
 
         <select id="getList" resultType="org.astro.aboard.dto.BoardDTO">
-                select * from tbl_board order by bno desc
+                select * from tbl_board order by bno desc limit #{skip}, #{size}
         </select>
 
         <select id="getOne" resultType="org.astro.aboard.dto.BoardDTO">

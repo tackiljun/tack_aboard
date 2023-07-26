@@ -50,7 +50,7 @@
                         return
                   }
 
-                  console.log(actionForm)
+                  //console.log(actionForm)
 
                   const bno = target.getAttribute("data-bno")
 
@@ -75,15 +75,15 @@
 
             const {page, size} = [[${pageRequestDTO}]]
 
-            console.log(page, size)
+            //console.log(page, size)
 
             const {total} = [[${pageResponseDTO}]]
 
-            console.log("total: " + total)
+            //console.log("total: " + total)
 
             const pageLIStr = makePages(page, size, total)
 
-            console.log("boardUL: " + boardUL)
+            //console.log("boardUL: " + boardUL)
 
             boardUL.innerHTML = pageLIStr
 
