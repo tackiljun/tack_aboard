@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.astro.aboard.mappers.ReplyMapper">
+
+    <select id="replyList" resultType="org.astro.aboard.dto.ReplyDTO">
+        select 
+        if(rno = gno, 0, 1) as bno, rno, reply, replyer, replyDate, gno, step 
+        from tbl_reply 
+        where bno = #{bno} 
+        order vy gno asc, rno asc 
+        limit #{page.skip}, #{page.size}
+    </select>
+
+    <insert id="insertReply" parmeterType="org.astro.aboard.dto.ReplyDTO">
+        insert into tbl_reply (bno, reply, replyer) values(#{bno}, #{reply}, #{replyer})
+        <selectKey resultType="long" keyProperty="rno" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
+    </insert>
+
+    <select id="readReply" resultType="org.astro.aboard.dto.ReplyDTO">
+        select * from tbl_reply where rno = #{rno}
+    </select>
+
+    <delete id="deleteReply" parmeterType="long">
+        delete from tbl_reply where rno = #{rno}
+    </delete>
+
+    <update id="modifyReply" parmeterType="org.astro.aboard.dto.ReplyDTO">
+        update tbl_reply set reply = #{reply}, replyer = #{replyer}, modifyDate = #{modifyDate} where rno = #{rno}
+    </update>
+
+    <select id="total">
+        select count(rno) from tbl_reply where bno = #{bno}
+    </select>
+
+</mapper>
