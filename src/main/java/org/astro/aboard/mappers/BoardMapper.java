@@ -3,6 +3,7 @@ package org.astro.aboard.mappers;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.astro.aboard.dto.BoardDTO;
 import org.astro.aboard.dto.PageRequestDTO;
 
@@ -19,6 +20,8 @@ public interface BoardMapper {
     int deleteOne(int bno);
     // 수정.
     int modifyOne(BoardDTO boardDTO);
-
+    // 리스트를 몇개씩 가져오는지 알려주는.
     long listCount(PageRequestDTO pageRequestDTO);
+    // 댓글수 기능.
+    public void updateReplyCnt(@Param("bno") long bno, @Param("amount") int amount);
 }

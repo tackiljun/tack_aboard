@@ -17,9 +17,13 @@ public interface ReplyMapper {
     // 댓글삭제.
     int deleteReply(long rno);
     // 댓글수정.
-    int updateReply(ReplyDTO replyDTO);
+    int modifyReply(ReplyDTO replyDTO);
     // total.
     int total(long bno);
+    // gno값 일치유무?
+    int updateGno(Long gno);
+    // 대댓글인데 -----.
+    int insertReplyChild(ReplyDTO replyDTO);
 
 
     

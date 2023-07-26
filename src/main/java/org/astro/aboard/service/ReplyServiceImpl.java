@@ -2,8 +2,6 @@ package org.astro.aboard.service;
 
 import java.util.List;
 
-import javax.management.RuntimeErrorException;
-
 import org.astro.aboard.dto.PageRequestDTO;
 import org.astro.aboard.dto.PageResponseDTO;
 import org.astro.aboard.dto.ReplyDTO;
@@ -35,6 +33,13 @@ public class ReplyServiceImpl implements ReplyService {
 
 
     @Override
+    public ReplyDTO readReply(long rno) {
+        
+        return replyMapper.readReply(rno);
+    }
+
+
+    @Override
     public Long insertReply(ReplyDTO replyDTO) {
         
         Long result = null;
@@ -44,11 +49,41 @@ public class ReplyServiceImpl implements ReplyService {
             int count = replyMapper.insertReply(replyDTO);
 
             if(count != 1) {
-                throw new RuntimeErrorException("ERROR!!!!!!!!!!");
+                throw new RuntimeException("ERROR!!!!!!!!!!");
             }
             Long rno = replyDTO.getRno();
-            replyMapper.up
+            replyMapper.updateGno(rno);
+            result = rno;
+        } else {
+            int count = replyMapper.insertReplyChild(replyDTO);
+            if(count != 1) {
+                throw new RuntimeException("INSERT CHILD ERROR!!!!!!!!!!");
+            }
+            boardMapper.updateReplyCnt(replyDTO.getBno(), 1);
+            result = replyDTO.getBno();
         }
+        return result;
     }
+
+
+    @Override
+    public int deleteReply(long rno) {
+        
+        ReplyDTO bnoDTO = replyMapper.readReply(rno);
+
+        boardMapper.updateReplyCnt(bnoDTO.getBno(), -1);
+
+        return replyMapper.deleteReply(rno);
+    }
+
+
+    @Override
+    public int modifyReply(ReplyDTO replyDTO) {
+        
+        return replyMapper.modifyReply(replyDTO);
+    }
+
+
+    
     
 }

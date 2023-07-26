@@ -11,6 +11,12 @@ public interface ReplyService {
 
     PageResponseDTO<ReplyDTO> replyList(@Param("page") PageRequestDTO pageRequestDTO, @Param("bno") long bno);
 
+    ReplyDTO readReply(long rno);
+
     Long insertReply(ReplyDTO replyDTO);
+
+    int deleteReply(long rno);
+
+    int modifyReply(ReplyDTO replyDTO);
     
 }
