@@ -37,7 +37,7 @@ public class BoardController {
 
         log.info("GET ||||| ----------LIST----------");
 
-        model.addAttribute("list", pageResponseDTO);
+        model.addAttribute("pageResponseDTO", pageResponseDTO);
     }
 
     // 보기.

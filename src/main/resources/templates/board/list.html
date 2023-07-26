@@ -6,7 +6,7 @@
 
       <h1>List Page</h1>
       <div>
-            <table>
+            <table class="boardTable">
                   <tr th:each="dto : ${pageResponseDTO.list}">
                         <td>[[${dto.bno}]]</td>
                         <td th:data-bno="${dto.bno}">[[${dto.title}]]</td>
