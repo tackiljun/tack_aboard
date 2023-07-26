@@ -31,6 +31,7 @@ public class ReplyDTO {
     // 댓글 작성일.
     private LocalDate replydate;
     // 대댓글?
+    @Builder.Default
     private long gno = 0L;
     // 대댓글있는지 확인.
     private int step;
