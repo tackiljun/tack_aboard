@@ -68,7 +68,7 @@ public class BoardController {
 
         model.addAttribute("dto", boardService.getOne(bno));
 
-        return "board/modify";
+        return "/board/modify";
     }
 
 /////////////////////////////////////////////////////////////////////////////////////////////
