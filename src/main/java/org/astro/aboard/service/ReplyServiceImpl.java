@@ -20,7 +20,7 @@ public class ReplyServiceImpl implements ReplyService {
     
     
     @Override
-    public PageResponseDTO<ReplyDTO> replyList(PageRequestDTO pageRequestDTO, long bno) {
+    public PageResponseDTO<ReplyDTO> getReplyList(PageRequestDTO pageRequestDTO, long bno) {
         
         pageRequestDTO.setSize(10);
 

@@ -50,7 +50,7 @@ public class BoardController {
 
         model.addAttribute("dto", boardService.getOne(bno));
 
-        return "board/read";
+        return "/board/read";
     }
 
     // 등록.

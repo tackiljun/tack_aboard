@@ -7,8 +7,8 @@
 
     <select id="replyList" resultType="org.astro.aboard.dto.ReplyDTO">
         select 
-        if(rno = gno, 0, 1) as bno, rno, reply, replyer, replyDate, gno, step 
-        from tbl_reply 
+        bno, rno, reply, replyer 
+        from tbl_reply
         where bno = #{bno} 
         order by gno asc, rno asc 
         limit #{page.skip}, #{page.size}

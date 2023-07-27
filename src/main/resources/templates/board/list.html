@@ -13,6 +13,7 @@
                         <td>[[${dto.writer}]]</td>
                   </tr>
             </table>
+            <a href="/board/regist">등록</a>
       </div>
 
       <div>
@@ -27,7 +28,7 @@
 
       <form class="actionForm" action="/board/list" method="get">
             <input type="hidden" name="page" value="3">
-            <input type="hidden" name="size" th:value="10">
+            <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
       </form>
 
       <script src="/js/pageUtil.js">
@@ -50,7 +51,7 @@
                         return
                   }
 
-                  //console.log(actionForm)
+                  console.log(actionForm)
 
                   const bno = target.getAttribute("data-bno")
 
@@ -68,6 +69,10 @@
                   const target = e.target
                   const pageNum = target.getAttribute("href")
 
+                  if(!pageNum) {
+                        return
+                  }
+
                   pageObj.value = pageNum
                   actionForm.setAttribute("action", `/board/list`)
                   actionForm.submit()
@@ -75,15 +80,15 @@
 
             const {page, size} = [[${pageRequestDTO}]]
 
-            //console.log(page, size)
+            console.log(page, size)
 
             const {total} = [[${pageResponseDTO}]]
 
-            //console.log("total: " + total)
+            console.log("total: " + total)
 
             const pageLIStr = makePages(page, size, total)
 
-            //console.log("boardUL: " + boardUL)
+            console.log("boardUL: " + boardUL)
 
             boardUL.innerHTML = pageLIStr
 
