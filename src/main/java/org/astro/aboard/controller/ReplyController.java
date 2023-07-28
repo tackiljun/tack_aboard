@@ -32,7 +32,8 @@ public class ReplyController {
     // 리스트. 
     //@GetMapping("{bno}/list")
     @GetMapping(value = "{bno}/list", produces = MediaType.APPLICATION_JSON_VALUE)
-    public PageResponseDTO<ReplyDTO> getRpList(@PathVariable("bno") long bno, PageRequestDTO pageRequestDTO) {
+    public PageResponseDTO<ReplyDTO> getRpList(
+        @PathVariable("bno") long bno, PageRequestDTO pageRequestDTO) {
 
         log.info("+++++++++++++++++++" , bno);
         return replyService.getReplyList(pageRequestDTO, bno);
@@ -71,7 +72,7 @@ public class ReplyController {
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////    
     // 수정.
-    @PutMapping("modify")
+    @PutMapping("{rno}")
     public Map<String, Integer> modifyRp(@RequestBody ReplyDTO replyDTO) {
 
         int result = replyService.modifyReply(replyDTO);

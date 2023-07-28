@@ -1,5 +1,8 @@
 package org.astro.aboard.dto;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -13,12 +16,18 @@ import lombok.ToString;
 @Getter
 public class PageRequestDTO {
 
-    // page번호.
+    // 페이지번호.
     @Builder.Default
     private int page = 1;
-    // size.
+    // 사이즈.
     @Builder.Default
     private int size = 10;
+    // 타입.
+    private String type;
+    // 키워드.
+    private String keyword;
+    // 링크.
+    private String link;
 
 /////////////////////////////////////////////////////////////////////////    
 
@@ -54,5 +63,38 @@ public class PageRequestDTO {
         int temp = (int) (Math.ceil(this.page/10.0)) * (10 * size);
         return temp + 1;
     }
-    
+
+    public String[] getTypes(){
+        if(this.type == null || this.type.isEmpty()){
+          return null;
+        }
+        return this.type.split("");
+      }
+
+    public String getLink() {
+
+        if(link == null) {
+
+            StringBuilder stringBuilder = new StringBuilder();
+
+            stringBuilder.append("page" + this.page);
+            stringBuilder.append("size" + this.size);
+
+            if(type != null && type.length() > 0) {
+                stringBuilder.append("type= " + this.type);
+            }
+
+            if(keyword != null) {
+
+                try {
+                    stringBuilder.append("keyword= " + URLEncoder.encode(keyword, "UTF-8"));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                }
+            }
+            // toString으로 전달.
+            link = stringBuilder.toString();
+        }
+        return link;
+    }
 }

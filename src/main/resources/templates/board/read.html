@@ -1,13 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout/lteLayout.html}">
 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BOARD READ PAGE</title>
+</head>
 <body>
-    <divv layout:fragment="content">
+    <div layout:fragment="content">
         <h1>READ PAGE</h1>
-        <div>[[${dto.bno}]]</div>
-        <div>[[${dto.title}]]</div>
-        <div>[[${dto.writer}]]</div>
+        <div>
+            [[${dto.bno}]]
+        </div>
+        <div>
+            [[${dto.title}]]
+        </div>
+        <div>
+            [[$dto.content]]
+        </div>
+        <div>
+            [[${dto.writer}]]
+        </div>
+        <div>
+            [[${dto.duedate}]]
+        </div>
         <div>
             <ul class="replyList">
                 <h1>REPLY</h1>
@@ -18,12 +36,31 @@
 
     <form class="actionForm">
     <button type="button" class="btnModify">수정</button>
+    <button type="button" class="btnDelete">삭제</button>
     </form>
 
     <script layout:fragment="script" th:inline="javascript">
 
-        const btnModify = document.querySelector(".btnModify")
+        // 액션폼.
         const actionForm = document.querySelector(".actionForm")
+        // 수정버튼.
+        const btnModify = document.querySelector(".btnModify")
+        // 삭제버튼.
+        const btnDelete = document.querySelector(".btnDelete")
+
+        // 여기부터 댓글관련./////
+        const btnReply = document.querySelector(".btnReply")
+        // 모달관리.
+        const reply = document.querySelector("input[name='reply']")
+        const replyer = document.querySelector("input[name='replyer']")
+        const gnoInput = document.querySelector("input[name='gno']")
+
+        const modifyReply = document.querySelector('.modifyReply')
+        const deleteReply = document.querySelector('.deleteReply')
+        const replyModal = new bootstrap.Modal( document.querySelector(".replyModal") )
+        const replyUL = document.querySelector(".replyUL")
+        const {bno} = [[${dto}]]
+        
         // 댓글리스트 선택.
         const replyList = document.querySelector('.replyList')
 
@@ -46,7 +83,11 @@
                 for(let i = 0; i < arr.list.length; i++) {
 
                     const {rno, reply, replyer} = arr.list[i]
-                    str += `<li class="p-2 mb-2 bg-secondary text-white" data-id=${rno}>${reply}</li>`
+                    str += `<li class="p-2 mb-2 bg-secondary text-white" data-id=${rno}>
+                            ${reply}
+                            <button type="button" class="btn btn-primary modifyReply">수정</button>
+                            <button type="button" class="btn btn-primary deleteReply">삭제</button>
+                        </li>`
                 }
                 console.log(str)
                 replyList.innerHTML = str

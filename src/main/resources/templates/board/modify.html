@@ -3,7 +3,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <body>
-    <div>
+    <div layout:fragment="content">
         <h1>MODIFY PAGE</h1>
         <form method="post" class="actionForm">
             <div>
@@ -28,12 +28,14 @@
         const btnDelete = document.querySelector(".btnDelete")
         const actionForm = document.querySelector(".actionForm")
 
+        // 수정버튼.
         btnModify.addEventListener("click", (e) => {
 
         actionForm.setAttribute("action", `/board/modify/[[${dto.bno}]]`)
         actionForm.submit()
         })
 
+        // 삭제버튼.
         btnDelete.addEventListener("click", (e) => {
 
         actionForm.setAttribute("action", `/board/delete/[[${dto.bno}]]`)

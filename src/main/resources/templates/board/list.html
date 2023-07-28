@@ -3,47 +3,107 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/lteLayout.html}">
 
+<head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Board List</title>
+      
+      <style>
+            tr, td, th {
+                  border: solid 2px black;
+                  width: 200px;
+                  padding: 5px;
+            }
+      </style>
+      
+</head>
+
 <body>
       <div layout:fragment="content">
+      <h1>BOARD LIST PAGE</h1>
+      <div class="card">
+            <div class="card-header">
+                  <h1 class="card-title">BORDERED TABLE</h1>
 
-      <h1>LIST PAGE</h1>
-      <div>
-            <table class="boardTable">
-                  <tr th:each="dto : ${pageResponseDTO.list}">
-                        <td>[[${dto.bno}]]</td>
-                        <td th:data-bno="${dto.bno}">[[${dto.title}]]</td>
-                        <td>[[${dto.writer}]]</td>
-                  </tr>
-            </table>
-            <a href="/board/regist">등록</a>
+                  <form class="searchForm" action="/board/list" method="get">
+                        <input type="hidden" name="page" value="${pageRequestDTO.page}">
+                        <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+                        <select name="type" class="form-select mb-3">
+                              <option value=""></option>
+                              <option value="title" th:selected="${pageRequestDTO.type == 'title'}">TITLE</option>
+                              <option value="writer" th:selected="${pageRequestDTO.type == 'writer'}">WRITER</option>
+                        </select>
+                        <input type="text" name="keyword" 
+                        class="form-control mb-3" 
+                        placeholder="검색어를 입력하세요!!!!!"
+                        th:value="${pageRequestDTO.keyword}">
+                        <div class="button_wrap">
+                              <button type="submit" class="btn btn-primary btnSearch">
+                                    검색
+                              </button>
+                        </div>
+                  </form>
+            </div>
+            <div class="card-body">
+                  <table class="boardTable">
+                        <thead>
+                              <tr class="text-center">
+                                    <th>NO.</th>
+                                    <th>TITLE</th>
+                                    <th>WRITER</th>
+                                    <th>DUEDATE</th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                              <tr th:each="dto : ${pageResponseDTO.list}">
+                                    <td class="boardNumber">
+                                          [[${dto.bno}]]
+                                    </td>
+                                    <td class="boardTitle" th:data-bno="${dto.bno}">
+                                          [[${dto.title}]]
+                                    </td>
+                                    <td class="boardWriter">
+                                          [[${dto.writer}]]
+                                    </td>
+                                    <td>
+                                          [[${dto.duedate}]]
+                                    </td>
+                              </tr>
+                        </tbody>
+                  </table>
+                  <a href="/board/regist" class="border">등록</a>
+            </div>
+            <div class="card-footer clearfix">
+                  <ul class="pagination pagination-sm m-0 float-right boardUL">
+                        <li class="page-item"><a class="page-link" href="10">&laquo;</a></li>
+                        <li class="page-item"><a class="page-link" href="11">11</a></li>
+                        <li class="page-item"><a class="page-link" href="12">12</a></li>
+                        <li class="page-item"><a class="page-link" href="13">13</a></li>
+                        <li class="page-item"><a class="page-link" href="21">&raquo;</a></li>
+                  </ul>
+            </div>
+
+            <form class="actionForm" action="/board/list" method="get">
+                  <input type="hidden" name="page" th:value="${pageRequestDTO.page}">
+                  <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
+            </form>
+
       </div>
-
-      <div>
-            <ul class="pagination pagination-sm m-0 float-right boardUL">
-                  <li class="page-item"><a class="page-link" href="10">&laquo;</a></li>
-                  <li class="page-item"><a class="page-link" href="11">11</a></li>
-                  <li class="page-item"><a class="page-link" href="12">12</a></li>
-                  <li class="page-item"><a class="page-link" href="13">13</a></li>
-                  <li class="page-item"><a class="page-link" href="21">&raquo;</a></li>
-            </ul>
-      </div>
-
-      <form class="actionForm" action="/board/list" method="get">
-            <input type="hidden" name="page" value="3">
-            <input type="hidden" name="size" th:value="${pageRequestDTO.size}">
-      </form>
-
+      
       <script src="/js/pageUtil.js">
       </script>
       </div>
-      <script th:inline="javascript">
 
-
+      <script layout:fragment="script" th:inline="javascript">
 
             const actionForm = document.querySelector(".actionForm")
             const boardTable = document.querySelector(".boardTable")
-            const pageObj = actionForm.querySelector("input[name='page']")
             const boardUL = document.querySelector(".boardUL")
+            const pageObj = actionForm.querySelector("input[name='page']")
+            const btnSearch = document.querySelector(".btnSearch")
+            const searchForm = document.querySelector(".searchForm")
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             boardTable.addEventListener("click", (e) => {
 
@@ -65,7 +125,7 @@
                   actionForm.submit();
             }, false)
 
-///////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             boardUL.addEventListener("click", (e) => {
                   e.preventDefault()
@@ -84,18 +144,32 @@
             }, false)
 
             const {page, size} = [[${pageRequestDTO}]]
-
             console.log(page, size)
 
-            const {total} = [[${pageResponseDTO}]]
+            const {link} = [[${pageRequestDTO}]]
+            console.log("link: " + link)
 
+            const {total} = [[${pageResponseDTO}]]
             console.log("total: " + total)
 
             const pageLIStr = makePages(page, size, total)
-
+            boardUL.innerHTML = pageLIStr
             console.log("boardUL: " + boardUL)
 
-            boardUL.innerHTML = pageLIStr
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+            btnSearch.addEventListener("click", e => {
+                  e.preventDefault()
+                  e.stopPropagation()
+
+                  if (typeObj.options[typeObj.selectedIndex].value === "" && keywordObj.value !== "") {
+                        alert("검색조건을 선택하세요!!!!!!!!!!")
+                  return
+            }
+            pageSearchObj.value = 1
+
+            searchForm.submit()
+            }, false)
 
       </script>
 </body>

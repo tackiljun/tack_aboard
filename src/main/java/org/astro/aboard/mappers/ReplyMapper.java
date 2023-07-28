@@ -3,6 +3,7 @@ package org.astro.aboard.mappers;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.astro.aboard.dto.PageRequestDTO;
 import org.astro.aboard.dto.ReplyDTO;
 
@@ -21,9 +22,12 @@ public interface ReplyMapper {
     // total.
     int total(long bno);
     // gno값 일치유무?
-    int updateGno(Long gno);
+    int updateGno(long gno);
     // 대댓글인데 -----.
     int insertReplyChild(ReplyDTO replyDTO);
+
+    @Select("select count(rno) from tbl_reply where bno = #{bno}")
+    int getBnoCount(long bno);
 
 
     
